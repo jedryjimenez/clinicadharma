@@ -2,8 +2,7 @@
 :root{
   --primary:#0F766E; --secondary:#6366F1;
   --n-50:#F8FAFC; --n-100:#F1F5F9; --n-200:#E2E8F0; --n-300:#CBD5E1; --n-400:#94A3B8; --n-500:#64748B; --n-700:#334155; --n-800:#1E293B;
-  --text:#334155; --heading:#0F172A; --muted:#64748B;
-  --surface:#FFFFFF; --surface-2:#F8FAFC; --border:#E2E8F0; --focus:#0D9488;
+  --text:#334155; --heading:#0F172A; --muted:#64748B; --surface:#FFFFFF; --surface-2:#F8FAFC; --border:#E2E8F0; --focus:#0D9488;
   --radius:14px; --shadow-sm:0 1px 2px rgba(0,0,0,.06); --shadow-md:0 14px 40px rgba(2,6,23,.12);
 }
 :root.dark{ --text:#E2E8F0; --heading:#F8FAFC; --muted:#A3B0C2; --surface:#070C17; --surface-2:#0B1220; --border:#151B2B; --n-50:#0B1220; --n-100:#0F172A; --n-200:#111827; --n-300:#1F2937; --n-400:#374151; }
@@ -27,7 +26,7 @@ h1{font-size:28px;margin:0 0 12px;color:var(--heading)} h3{margin:0 0 10px;color
 .tb-user{width:28px;height:28px;border-radius:999px;background:linear-gradient(135deg,var(--secondary),var(--primary));display:grid;place-items:center;color:#fff;font-weight:700}
 
 /* Layout */
-#app{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:100vh}
+#app{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
 .sidebar{border-right:1px solid var(--border);background:var(--surface-2);padding:12px 12px;position:sticky;top:48px;height:calc(100vh - 48px)}
 .menu{display:grid;gap:8px}
 .menu-item{appearance:none;border:1px solid var(--border);background:var(--surface);padding:12px;border-radius:12px;text-align:left;color:var(--text);cursor:pointer;transition:all .18s}
@@ -103,27 +102,35 @@ h1{font-size:28px;margin:0 0 12px;color:var(--heading)} h3{margin:0 0 10px;color
 .tour.hidden{display:none}
 .tour-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow-md);padding:18px;max-width:560px}
 
-/* Sin sesión (login): oculta acciones topbar */
+/* Sin sesión: esconder acciones topbar */
 #app[data-auth="false"] .tb-center,
 #app[data-auth="false"] .tb-right { display: none; }
 #app[data-auth="false"] .topbar { justify-content: flex-start; }
 
-/* Safe-area notch */
+/* Safe-area móviles con notch */
 .topbar { padding-top: calc(8px + env(safe-area-inset-top)); }
 .content { padding-bottom: calc(20px + env(safe-area-inset-bottom)); }
 
-/* ==== MOBILE (≤1024px): drawer + responsive ==== */
+/* ==== DRAWER MOBILE + RESPONSIVE ==== */
 .only-mobile { display: none; }
 @media (max-width: 1024px) { .only-mobile { display: inline-flex; } }
 
 @media (max-width: 1024px) {
   #app { grid-template-columns: 1fr; }
+
   .sidebar {
-    position: fixed; top: 48px; left: 0; height: calc(100vh - 48px);
-    width: min(86vw, 320px); transform: translateX(-102%);
-    transition: transform .25s ease; box-shadow: var(--shadow-md); z-index: 1100;
+    position: fixed;
+    top: 48px;
+    left: 0;
+    height: calc(100vh - 48px);
+    width: min(86vw, 320px);
+    transform: translateX(-102%);
+    transition: transform .25s ease;
+    box-shadow: var(--shadow-md);
+    z-index: 1100;
   }
   .sidebar.open { transform: translateX(0); }
+
   .content { padding: 16px; }
 
   .table { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -133,61 +140,20 @@ h1{font-size:28px;margin:0 0 12px;color:var(--heading)} h3{margin:0 0 10px;color
   .kpis { grid-template-columns: repeat(2,1fr); }
 }
 
-/* Scrim */
+/* Scrim para drawer */
 .scrim {
-  position: fixed; inset: 0; background: rgba(2,6,23,.45);
-  backdrop-filter: blur(1px); z-index: 1090; opacity: 0; pointer-events: none;
+  position: fixed; inset: 0;
+  background: rgba(2,6,23,.45);
+  backdrop-filter: blur(1px);
+  z-index: 1090;
+  opacity: 0; pointer-events: none;
   transition: opacity .2s ease;
 }
 .scrim.show { opacity: 1; pointer-events: auto; }
-
-/* ==== DESKTOP POLISH (≥1025px) ==== */
-@media (min-width: 1025px) {
-  #app { grid-template-columns: 280px minmax(0, 1fr); align-items: start; }
-  .sidebar { position: sticky; top: 48px; height: calc(100vh - 48px); width: 280px; transform:none !important; box-shadow:none; z-index:1; }
-  .topbar { padding-left:24px; padding-right:24px; max-width:1440px; margin:0 auto; }
-  .tb-center { flex:0 1 860px; justify-content:center; gap:10px; }
-  .tb-search { flex:1 1 420px; min-width:360px; max-width:520px; }
-  .content { padding-left:32px; padding-right:32px; }
-  .scrim { display:none; }
-}
-@media (min-width: 1280px){ .menu-item{padding:10px 12px;} }
 
 /* Print */
 @media print {
   body{background:#fff}
   .topbar,.sidebar,.tour,.confetti,.scrim{display:none !important}
   .card,.table{box-shadow:none}
-}
-
-/* ==== POLISH PACK v1 ==== */
-
-/* 1) Contenido centrado y con ancho controlado en desktop */
-@media (min-width: 1025px) {
-  .content {
-    max-width: 1320px;
-    margin: 0 auto;
-  }
-}
-
-/* 2) Sidebar un pelín más compacta para que no “pese” visualmente */
-@media (min-width: 1280px) {
-  .menu-item { padding: 10px 12px; }
-}
-
-/* 3) Tarjetas y títulos un poco más finos */
-.card-title {
-  font-weight: 700;
-  letter-spacing: .2px;
-  margin-bottom: 8px;
-}
-
-/* 4) KPI: efecto hover sutil para que “vivan” */
-.kpi { transition: transform .12s ease, box-shadow .2s ease; }
-.kpi:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
-/* 5) Botón “Cargar datos demo” con estilo link/outline */
-#btnBoostData, #btnBoostData2 {
-  border-color: color-mix(in srgb, var(--secondary), #fff 70%);
-  color: var(--secondary);
 }

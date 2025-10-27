@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Clínica — Demo Premium</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Clínica — Dharma</title>
+  <link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 <div id="app" data-auth="false" data-role="admin">
@@ -13,18 +13,18 @@
     <div class="tb-left">
       <button class="icon-btn only-mobile" id="btnMenu" aria-label="Abrir menú">☰</button>
       <div class="brand-mark">✚</div>
-      <div class="brand-name" id="clinicName" contenteditable="true" spellcheck="false">Clínica SaludPlus</div>
-      <span class="demo-ribbon">DEMO</span>
+      <div class="brand-name" contenteditable="true" spellcheck="false" id="clinicName">Clínica Dharma</div>
+      <span class="demo-ribbon">Demo</span>
     </div>
     <div class="tb-center">
-      <input class="tb-search" id="globalSearch" placeholder="Buscar paciente, cita, orden..." />
+      <input class="tb-search" id="globalSearch" placeholder="Buscar paciente, cita, orden..."/>
       <button class="btn btn-outline" id="tbNewAppt">Nueva cita</button>
       <button class="btn btn-outline" id="tbNewPatient">Registrar paciente</button>
-      <button class="btn btn-primary pulse" id="btnRunDemo">▶ Demo</button>
+      <button class="btn btn-primary pulse" id="btnRunDemo">▶ Cargar Datos Demostrativos</button>
     </div>
     <div class="tb-right">
       <select id="roleSwitch" class="tb-select">
-        <option value="admin">Admin</option>
+        <option value="admin">Administrador</option>
         <option value="recepcion">Recepción</option>
         <option value="medico">Médico</option>
       </select>
@@ -34,7 +34,7 @@
     </div>
   </header>
 
-  <!-- Sidebar -->
+  <!-- Sidebar (drawer móvil) -->
   <aside class="sidebar">
     <nav class="menu">
       <button data-target="dashboard" data-roles="admin recepcion" class="menu-item active">🏠 Dashboard</button>
@@ -47,23 +47,24 @@
       <button data-target="facturacion" data-roles="admin recepcion" class="menu-item">💵 Facturación</button>
       <button data-target="reportes" data-roles="admin" class="menu-item">📊 Reportes</button>
       <button data-target="ajustes" data-roles="admin" class="menu-item">⚙️ Ajustes</button>
-      <button data-target="login" data-roles="admin recepcion medico" id="btnLogout" class="menu-item danger">Cerrar sesión</button>
+      <button data-target="login" data-roles="admin recepcion medico" class="menu-item danger" id="btnLogout">Cerrar sesión</button>
     </nav>
   </aside>
 
   <!-- Main -->
   <main class="content">
+
     <!-- LOGIN -->
     <section id="login" class="view">
       <div class="login-hero">
-        <h1>Bienvenido a <span class="accent">SaludPlus</span></h1>
-        <p class="muted">Gestión integral de clínicas: agenda, ECE, órdenes, receta y facturación.</p>
+        <h1>Bienvenido a <span class="accent">Clinica Dharma</span></h1>
+        <p class="muted">Gestión integral</p>
       </div>
       <div class="card card-xl glass">
         <div class="logo-placeholder">LOGO</div>
         <div class="form-grid">
-          <label class="field"><span>Email</span><input id="loginEmail" type="email" class="input" placeholder="admin@demo.com" /></label>
-          <label class="field"><span>Contraseña</span><input id="loginPass" type="password" class="input" placeholder="••••••••" /></label>
+          <label class="field"><span>Email</span><input id="loginEmail" type="email" class="input" placeholder="admin@demo.com"/></label>
+          <label class="field"><span>Contraseña</span><input id="loginPass" type="password" class="input" placeholder="admin"/></label>
         </div>
         <div class="actions">
           <button class="btn btn-primary" id="btnDoLogin">Ingresar</button>
@@ -79,9 +80,9 @@
       <h1>Registro de usuario</h1>
       <div class="card card-xl">
         <div class="form-grid">
-          <label class="field"><span>Nombre</span><input id="suName" class="input" placeholder="Tu nombre" /></label>
-          <label class="field"><span>Email</span><input id="suEmail" class="input" placeholder="email@demo.com" /></label>
-          <label class="field"><span>Contraseña</span><input id="suPass" type="password" class="input" placeholder="••••••" /></label>
+          <label class="field"><span>Nombre</span><input id="suName" class="input" placeholder="Tu nombre"/></label>
+          <label class="field"><span>Email</span><input id="suEmail" class="input" placeholder="email@demo.com"/></label>
+          <label class="field"><span>Contraseña</span><input id="suPass" type="password" class="input" placeholder="••••••"/></label>
           <label class="field"><span>Rol</span>
             <select id="suRole" class="input">
               <option value="admin">Administrador</option>
@@ -103,7 +104,7 @@
       <div class="card card-xl">
         <p class="muted">Demo: ingresa tu email y te mostraremos una notificación.</p>
         <div class="row gap-12">
-          <input id="forgotEmail" class="input" placeholder="email@demo.com" />
+          <input id="forgotEmail" class="input" placeholder="email@demo.com"/>
           <button class="btn btn-primary" id="btnSendReset">Enviar</button>
         </div>
         <div class="actions"><button class="btn" data-nav="login">Volver</button></div>
@@ -163,16 +164,16 @@
       <div class="card card-xl">
         <div class="form-grid">
           <div class="row gap-12">
-            <label class="field flex-1"><span>Documento</span><input id="pDoc" class="input" placeholder="001-000000-0000" /></label>
-            <label class="field flex-1"><span>Fecha Nac.</span><input id="pDob" type="date" class="input" /></label>
+            <label class="field flex-1"><span>Documento</span><input id="pDoc" class="input" placeholder="001-000000-0000"/></label>
+            <label class="field flex-1"><span>Fecha Nac.</span><input id="pDob" type="date" class="input"/></label>
           </div>
-          <label class="field"><span>Nombre completo</span><input id="pName" class="input" placeholder="Nombre y Apellidos" /></label>
+          <label class="field"><span>Nombre completo</span><input id="pName" class="input" placeholder="Nombre y Apellidos"/></label>
           <div class="row gap-12">
-            <label class="field flex-1"><span>Teléfono</span><input id="pPhone" class="input" /></label>
-            <label class="field flex-1"><span>Dirección</span><input id="pAddr" class="input" /></label>
+            <label class="field flex-1"><span>Teléfono</span><input id="pPhone" class="input"/></label>
+            <label class="field flex-1"><span>Dirección</span><input id="pAddr" class="input"/></label>
           </div>
-          <label class="field"><span>Alergias (coma-separadas)</span><input id="pAllergies" class="input" placeholder="Penicilina, ..." /></label>
-          <label class="field"><span>Cobertura</span><input id="pCoverage" class="input" placeholder="Plan X — Aseguradora Y" /></label>
+          <label class="field"><span>Alergias (coma-separadas)</span><input id="pAllergies" class="input" placeholder="Penicilina, ..."/></label>
+          <label class="field"><span>Cobertura</span><input id="pCoverage" class="input" placeholder="Plan X — Aseguradora Y"/></label>
         </div>
         <div class="actions">
           <button class="btn btn-primary" id="btnSavePatient">Guardar</button>
@@ -186,7 +187,7 @@
       <h1>Agenda — Día (multi-médico)</h1>
       <div class="row gap-12 mb-16">
         <button class="btn btn-outline" id="goHoy">Hoy</button>
-        <input id="agDate" type="date" class="input" />
+        <input id="agDate" type="date" class="input"/>
         <select id="agDoctor" class="input"></select>
         <button class="btn btn-primary" id="btnNuevaCita">Nueva cita</button>
       </div>
@@ -198,19 +199,19 @@
       <div class="modal-dialog">
         <div class="modal-header">
           <h3>Nueva Cita</h3>
-          <button class="icon-btn" id="closeModalCita">✕</button>
+          <button class="icon-btn" id="closeModalCita" aria-label="Cerrar">✕</button>
         </div>
         <div class="modal-body">
           <div class="row gap-12">
-            <input id="citaPaciente" class="input flex-1" placeholder="Paciente (buscar por nombre/documento)" />
+            <input id="citaPaciente" class="input flex-1" placeholder="Paciente (buscar por nombre/documento)"/>
             <button class="btn" id="btnPickPaciente">Elegir</button>
           </div>
           <div class="row gap-12 mt-12">
             <select id="citaDoctor" class="input"></select>
-            <input id="citaFecha" class="input" type="datetime-local" />
+            <input id="citaFecha" class="input" type="datetime-local"/>
           </div>
           <div class="row gap-12 mt-12">
-            <input id="citaServicio" class="input flex-1" placeholder="Servicio / Motivo" />
+            <input id="citaServicio" class="input flex-1" placeholder="Servicio / Motivo (Consulta, Control, etc.)"/>
           </div>
         </div>
         <div class="modal-footer">
@@ -235,14 +236,22 @@
           <h3 class="card-title">Triage rápido</h3>
           <div class="form-grid">
             <div class="row gap-12">
-              <input id="tTA" class="input" placeholder="TA" /><input id="tFC" class="input" placeholder="FC" /><input id="tFR" class="input" placeholder="FR" />
+              <input id="tTA" class="input" placeholder="TA"/>
+              <input id="tFC" class="input" placeholder="FC"/>
+              <input id="tFR" class="input" placeholder="FR"/>
             </div>
             <div class="row gap-12">
-              <input id="tTemp" class="input" placeholder="Temp" /><input id="tSpO2" class="input" placeholder="SpO2" /><input id="tIMC" class="input" placeholder="IMC" />
+              <input id="tTemp" class="input" placeholder="Temp"/>
+              <input id="tSpO2" class="input" placeholder="SpO2"/>
+              <input id="tIMC" class="input" placeholder="IMC"/>
             </div>
             <textarea id="tObs" class="input" rows="3" placeholder="Prioridad / Observaciones"></textarea>
             <div class="row gap-12">
-              <select id="tPriority" class="input"><option>Baja</option><option selected>Media</option><option>Alta</option></select>
+              <select id="tPriority" class="input">
+                <option value="Baja">Baja</option>
+                <option value="Media">Media</option>
+                <option value="Alta">Alta</option>
+              </select>
               <button class="btn btn-primary" id="btnEnviarConsulta">Enviar a consulta</button>
             </div>
           </div>
@@ -275,7 +284,7 @@
           <div class="chips" id="panelVitals"></div>
           <h3 class="card-title mt-12">Diagnósticos (CIE)</h3>
           <div class="row gap-12">
-            <input id="dxInput" class="input" placeholder="Código o nombre" />
+            <input id="dxInput" class="input" placeholder="Código o nombre"/>
             <button id="btnAddDx" class="btn">Agregar</button>
           </div>
           <div class="chips mt-12" id="chipsDx"></div>
@@ -295,7 +304,7 @@
       <div class="card">
         <div class="row gap-12">
           <select id="ordTipo" class="input"><option>Laboratorio</option><option>Imagen</option></select>
-          <input id="ordProv" class="input flex-1" placeholder="Proveedor externo" />
+          <input id="ordProv" class="input flex-1" placeholder="Proveedor externo"/>
         </div>
         <textarea id="ordNotas" class="input mt-12" rows="3" placeholder="Indicaciones / Notas"></textarea>
         <div class="row gap-12 mt-12">
@@ -369,8 +378,8 @@
       <div class="card">
         <h3 class="card-title">Branding / Tema</h3>
         <div class="row gap-12">
-          <label>Primario <input type="color" id="cPrimary" value="#0F766E" /></label>
-          <label>Secundario <input type="color" id="cSecondary" value="#6366F1" /></label>
+          <label>Primario <input type="color" id="cPrimary" value="#0F766E"/></label>
+          <label>Secundario <input type="color" id="cSecondary" value="#6366F1"/></label>
           <button class="btn" id="btnApplyTheme">Aplicar</button>
           <button class="btn" id="btnThemeReset">Reset</button>
         </div>
@@ -378,16 +387,19 @@
       <div class="card mt-16">
         <h3 class="card-title">Datos demo</h3>
         <div class="row gap-12">
-          <button class="btn btn-outline" id="btnSeed">Re-sembrar base</button>
+          <button class="btn btn-outline" id="btnSeed">Reinicar base de datos</button>
           <button class="btn btn-primary" id="btnBoostData2">Generar 50 pacientes + 30 citas</button>
         </div>
       </div>
     </section>
+
   </main>
 </div>
 
-<!-- Overlays -->
+<!-- Scrim para drawer -->
 <div class="scrim" id="scrim"></div>
+
+<!-- Tour overlay -->
 <div id="tour" class="tour hidden">
   <div class="tour-card">
     <h3>Guía rápida</h3>
