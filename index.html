@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Clínica — Demo Premium</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div id="app" data-auth="false" data-role="admin">
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="tb-left">
+      <button class="icon-btn only-mobile" id="btnMenu" aria-label="Abrir menú">☰</button>
+      <div class="brand-mark">✚</div>
+      <div class="brand-name" id="clinicName" contenteditable="true" spellcheck="false">Clínica SaludPlus</div>
+      <span class="demo-ribbon">DEMO</span>
+    </div>
+    <div class="tb-center">
+      <input class="tb-search" id="globalSearch" placeholder="Buscar paciente, cita, orden..." />
+      <button class="btn btn-outline" id="tbNewAppt">Nueva cita</button>
+      <button class="btn btn-outline" id="tbNewPatient">Registrar paciente</button>
+      <button class="btn btn-primary pulse" id="btnRunDemo">▶ Demo</button>
+    </div>
+    <div class="tb-right">
+      <select id="roleSwitch" class="tb-select">
+        <option value="admin">Admin</option>
+        <option value="recepcion">Recepción</option>
+        <option value="medico">Médico</option>
+      </select>
+      <button id="toggleDark" class="icon-btn" title="Tema claro/oscuro">🌙</button>
+      <button id="btnTour" class="icon-btn" title="Guía rápida">❓</button>
+      <div class="tb-user" id="userBadge">AD</div>
+    </div>
+  </header>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <nav class="menu">
+      <button data-target="dashboard" data-roles="admin recepcion" class="menu-item active">🏠 Dashboard</button>
+      <button data-target="pacientes" data-roles="admin recepcion" class="menu-item">👤 Pacientes</button>
+      <button data-target="agenda" data-roles="admin recepcion medico" class="menu-item">📅 Agenda</button>
+      <button data-target="sala" data-roles="admin recepcion" class="menu-item">🪑 Sala de espera</button>
+      <button data-target="consulta" data-roles="admin medico" class="menu-item">🩺 Consultas (ECE)</button>
+      <button data-target="ordenes" data-roles="admin medico" class="menu-item">📄 Órdenes</button>
+      <button data-target="recetas" data-roles="admin medico" class="menu-item">📝 Recetas</button>
+      <button data-target="facturacion" data-roles="admin recepcion" class="menu-item">💵 Facturación</button>
+      <button data-target="reportes" data-roles="admin" class="menu-item">📊 Reportes</button>
+      <button data-target="ajustes" data-roles="admin" class="menu-item">⚙️ Ajustes</button>
+      <button data-target="login" data-roles="admin recepcion medico" id="btnLogout" class="menu-item danger">Cerrar sesión</button>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="content">
+    <!-- LOGIN -->
+    <section id="login" class="view">
+      <div class="login-hero">
+        <h1>Bienvenido a <span class="accent">SaludPlus</span></h1>
+        <p class="muted">Gestión integral de clínicas: agenda, ECE, órdenes, receta y facturación.</p>
+      </div>
+      <div class="card card-xl glass">
+        <div class="logo-placeholder">LOGO</div>
+        <div class="form-grid">
+          <label class="field"><span>Email</span><input id="loginEmail" type="email" class="input" placeholder="admin@demo.com" /></label>
+          <label class="field"><span>Contraseña</span><input id="loginPass" type="password" class="input" placeholder="••••••••" /></label>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="btnDoLogin">Ingresar</button>
+          <button class="btn btn-outline" id="btnGoSignup">Crear cuenta</button>
+          <button class="btn" id="btnGoForgot">¿Olvidé mi contraseña?</button>
+        </div>
+        <div class="login-hint">Demo: <code>admin@demo.com</code> / <code>admin</code></div>
+      </div>
+    </section>
+
+    <!-- SIGNUP -->
+    <section id="signup" class="view hidden">
+      <h1>Registro de usuario</h1>
+      <div class="card card-xl">
+        <div class="form-grid">
+          <label class="field"><span>Nombre</span><input id="suName" class="input" placeholder="Tu nombre" /></label>
+          <label class="field"><span>Email</span><input id="suEmail" class="input" placeholder="email@demo.com" /></label>
+          <label class="field"><span>Contraseña</span><input id="suPass" type="password" class="input" placeholder="••••••" /></label>
+          <label class="field"><span>Rol</span>
+            <select id="suRole" class="input">
+              <option value="admin">Administrador</option>
+              <option value="recepcion">Recepción</option>
+              <option value="medico">Médico</option>
+            </select>
+          </label>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="btnCreateUser">Crear usuario</button>
+          <button class="btn" data-nav="login">Volver a Login</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- FORGOT -->
+    <section id="forgot" class="view hidden">
+      <h1>Recuperar contraseña</h1>
+      <div class="card card-xl">
+        <p class="muted">Demo: ingresa tu email y te mostraremos una notificación.</p>
+        <div class="row gap-12">
+          <input id="forgotEmail" class="input" placeholder="email@demo.com" />
+          <button class="btn btn-primary" id="btnSendReset">Enviar</button>
+        </div>
+        <div class="actions"><button class="btn" data-nav="login">Volver</button></div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="view hidden">
+      <div class="hero-row">
+        <div>
+          <h1>Dashboard del día</h1>
+          <p class="muted">Resumen de actividad, con indicadores y tendencias.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-outline" id="btnBoostData">Cargar datos demo</button>
+          <button class="btn btn-primary" id="btnQuickAppt">Nueva cita</button>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><div class="kpi-label">Citas de hoy</div><div class="kpi-value" id="kpiCitas">-</div></div>
+        <div class="kpi"><div class="kpi-label">No-show</div><div class="kpi-value" id="kpiNoShow">-</div></div>
+        <div class="kpi"><div class="kpi-label">En espera</div><div class="kpi-value" id="kpiEspera">-</div></div>
+        <div class="kpi"><div class="kpi-label">Atendidos</div><div class="kpi-value" id="kpiAtendidos">-</div></div>
+      </div>
+      <div class="grid-2 mt-16">
+        <div class="card">
+          <h3 class="card-title">Citas por estado (hoy)</h3>
+          <canvas id="chartEstados" width="600" height="220"></canvas>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Tendencia semanal</h3>
+          <canvas id="chartSemana" width="600" height="220"></canvas>
+        </div>
+      </div>
+      <div class="section">
+        <h3>Citas del día</h3>
+        <div class="table card">
+          <div class="thead"><div>Hora</div><div>Paciente</div><div>Médico</div><div>Servicio</div><div>Estado</div><div>Acciones</div></div>
+          <div class="tbody" id="tbCitasHoy"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PACIENTES -->
+    <section id="pacientes" class="view hidden">
+      <h1>Pacientes</h1>
+      <div class="actions"><button class="btn btn-primary" id="btnNewPatientTop">Registrar Paciente</button></div>
+      <div class="table card">
+        <div class="thead"><div>Documento</div><div>Nombre</div><div>Teléfono</div><div>Cobertura</div><div>Acciones</div></div>
+        <div class="tbody" id="tbPacientes"></div>
+      </div>
+    </section>
+
+    <!-- NUEVO PACIENTE -->
+    <section id="newPatient" class="view hidden">
+      <h1>Registro de Paciente</h1>
+      <div class="card card-xl">
+        <div class="form-grid">
+          <div class="row gap-12">
+            <label class="field flex-1"><span>Documento</span><input id="pDoc" class="input" placeholder="001-000000-0000" /></label>
+            <label class="field flex-1"><span>Fecha Nac.</span><input id="pDob" type="date" class="input" /></label>
+          </div>
+          <label class="field"><span>Nombre completo</span><input id="pName" class="input" placeholder="Nombre y Apellidos" /></label>
+          <div class="row gap-12">
+            <label class="field flex-1"><span>Teléfono</span><input id="pPhone" class="input" /></label>
+            <label class="field flex-1"><span>Dirección</span><input id="pAddr" class="input" /></label>
+          </div>
+          <label class="field"><span>Alergias (coma-separadas)</span><input id="pAllergies" class="input" placeholder="Penicilina, ..." /></label>
+          <label class="field"><span>Cobertura</span><input id="pCoverage" class="input" placeholder="Plan X — Aseguradora Y" /></label>
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="btnSavePatient">Guardar</button>
+          <button class="btn" data-nav="pacientes">Cancelar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- AGENDA -->
+    <section id="agenda" class="view hidden">
+      <h1>Agenda — Día (multi-médico)</h1>
+      <div class="row gap-12 mb-16">
+        <button class="btn btn-outline" id="goHoy">Hoy</button>
+        <input id="agDate" type="date" class="input" />
+        <select id="agDoctor" class="input"></select>
+        <button class="btn btn-primary" id="btnNuevaCita">Nueva cita</button>
+      </div>
+      <div class="agenda-grid" id="agendaCols"></div>
+    </section>
+
+    <!-- MODAL CITA -->
+    <div class="modal hidden" id="modalCita">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <h3>Nueva Cita</h3>
+          <button class="icon-btn" id="closeModalCita">✕</button>
+        </div>
+        <div class="modal-body">
+          <div class="row gap-12">
+            <input id="citaPaciente" class="input flex-1" placeholder="Paciente (buscar por nombre/documento)" />
+            <button class="btn" id="btnPickPaciente">Elegir</button>
+          </div>
+          <div class="row gap-12 mt-12">
+            <select id="citaDoctor" class="input"></select>
+            <input id="citaFecha" class="input" type="datetime-local" />
+          </div>
+          <div class="row gap-12 mt-12">
+            <input id="citaServicio" class="input flex-1" placeholder="Servicio / Motivo" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" id="btnGuardarCita">Guardar</button>
+          <button class="btn btn-outline" id="cancelModalCita">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SALA DE ESPERA / TRIAGE -->
+    <section id="sala" class="view hidden">
+      <h1>Sala de Espera & Triage</h1>
+      <div class="grid-2">
+        <div class="card">
+          <h3 class="card-title">Sala de Espera (hoy)</h3>
+          <div class="table">
+            <div class="thead"><div>Hora</div><div>Paciente</div><div>Prioridad</div><div>Estado</div><div>Acciones</div></div>
+            <div class="tbody" id="tbEspera"></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Triage rápido</h3>
+          <div class="form-grid">
+            <div class="row gap-12">
+              <input id="tTA" class="input" placeholder="TA" /><input id="tFC" class="input" placeholder="FC" /><input id="tFR" class="input" placeholder="FR" />
+            </div>
+            <div class="row gap-12">
+              <input id="tTemp" class="input" placeholder="Temp" /><input id="tSpO2" class="input" placeholder="SpO2" /><input id="tIMC" class="input" placeholder="IMC" />
+            </div>
+            <textarea id="tObs" class="input" rows="3" placeholder="Prioridad / Observaciones"></textarea>
+            <div class="row gap-12">
+              <select id="tPriority" class="input"><option>Baja</option><option selected>Media</option><option>Alta</option></select>
+              <button class="btn btn-primary" id="btnEnviarConsulta">Enviar a consulta</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONSULTA SOAP -->
+    <section id="consulta" class="view hidden">
+      <div class="title-row">
+        <h1>Consulta (ECE) — Nota SOAP</h1>
+        <button class="btn btn-outline" id="btnImprimirNota">Imprimir Nota</button>
+      </div>
+      <div class="muted" id="encabezadoEncuentro">—</div>
+      <div class="tabs mt-12" role="tablist">
+        <button class="tab active" data-pane="tabS">S</button>
+        <button class="tab" data-pane="tabO">O</button>
+        <button class="tab" data-pane="tabA">A</button>
+        <button class="tab" data-pane="tabP">P</button>
+      </div>
+      <div class="grid-2 mt-12">
+        <div class="card">
+          <div id="tabS" class="pane active"><textarea id="soapS" class="input" rows="12" placeholder="Subjetivo..."></textarea></div>
+          <div id="tabO" class="pane"><textarea id="soapO" class="input" rows="12" placeholder="Objetivo..."></textarea></div>
+          <div id="tabA" class="pane"><textarea id="soapA" class="input" rows="12" placeholder="Análisis..."></textarea></div>
+          <div id="tabP" class="pane"><textarea id="soapP" class="input" rows="12" placeholder="Plan..."></textarea></div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Panel lateral: Vitals / Dx</h3>
+          <div class="chips" id="panelVitals"></div>
+          <h3 class="card-title mt-12">Diagnósticos (CIE)</h3>
+          <div class="row gap-12">
+            <input id="dxInput" class="input" placeholder="Código o nombre" />
+            <button id="btnAddDx" class="btn">Agregar</button>
+          </div>
+          <div class="chips mt-12" id="chipsDx"></div>
+        </div>
+      </div>
+      <div class="row gap-12 mt-12">
+        <button class="btn btn-outline" id="btnCrearOrden">Órdenes</button>
+        <button class="btn btn-outline" id="btnCrearReceta">Receta</button>
+        <button class="btn btn-primary" id="btnFirmarCerrar">Firmar & Cerrar</button>
+      </div>
+      <canvas id="fxConfetti" class="confetti"></canvas>
+    </section>
+
+    <!-- ÓRDENES & RESULTADOS -->
+    <section id="ordenes" class="view hidden">
+      <h1>Órdenes & Resultados</h1>
+      <div class="card">
+        <div class="row gap-12">
+          <select id="ordTipo" class="input"><option>Laboratorio</option><option>Imagen</option></select>
+          <input id="ordProv" class="input flex-1" placeholder="Proveedor externo" />
+        </div>
+        <textarea id="ordNotas" class="input mt-12" rows="3" placeholder="Indicaciones / Notas"></textarea>
+        <div class="row gap-12 mt-12">
+          <button class="btn btn-primary" id="btnGuardarOrden">Guardar Orden</button>
+        </div>
+      </div>
+      <div class="card mt-16">
+        <h3 class="card-title">Órdenes emitidas & Resultados</h3>
+        <div class="table">
+          <div class="thead"><div>Fecha</div><div>Tipo</div><div>Paciente</div><div>Estado</div><div>Acciones</div></div>
+          <div class="tbody" id="tbOrdenes"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODAL RESULTADO -->
+    <div class="modal hidden" id="modalResultado">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <h3>Resultado</h3>
+          <button class="icon-btn" id="closeModalRes">✕</button>
+        </div>
+        <div class="modal-body"><div id="resContenido">—</div></div>
+        <div class="modal-footer">
+          <button class="btn" id="btnImprimirRes">Imprimir</button>
+          <button class="btn btn-primary" id="btnMarcarEntregado">Marcar entregado</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECETAS -->
+    <section id="recetas" class="view hidden">
+      <div class="title-row">
+        <h1>Receta — Constructor</h1>
+        <div class="row gap-12">
+          <button class="btn" id="btnImprimirReceta">Imprimir</button>
+          <button class="btn btn-primary" id="btnFirmarReceta">Firmar</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="table">
+          <div class="thead"><div>Principio activo</div><div>Dosis</div><div>Frecuencia</div><div>Duración</div><div>Instrucciones</div><div>—</div></div>
+          <div class="tbody" id="tbReceta"></div>
+        </div>
+        <div class="actions"><button class="btn" id="btnAddMed">Agregar medicamento</button></div>
+      </div>
+    </section>
+
+    <!-- FACTURACIÓN -->
+    <section id="facturacion" class="view hidden">
+      <h1>Facturación — Consulta</h1>
+      <div class="card">
+        <h3 class="card-title">Ítems</h3>
+        <div class="table">
+          <div class="thead"><div>Concepto</div><div>Cant.</div><div>Precio</div><div>Subtotal</div></div>
+          <div class="tbody" id="tbFactura"></div>
+        </div>
+        <div class="row gap-12 mt-12"><strong>Total: <span id="factTotal">C$ 0</span></strong></div>
+        <div class="row gap-12 mt-12"><button class="btn btn-primary" id="btnRegistrarPago">Registrar Pago</button></div>
+      </div>
+    </section>
+
+    <!-- REPORTES / AJUSTES -->
+    <section id="reportes" class="view hidden">
+      <h1>Reportes</h1>
+      <div class="card"><p class="muted">KPI de productividad, ocupación, tiempos de espera y facturación (demo).</p></div>
+    </section>
+
+    <section id="ajustes" class="view hidden">
+      <h1>Ajustes</h1>
+      <div class="card">
+        <h3 class="card-title">Branding / Tema</h3>
+        <div class="row gap-12">
+          <label>Primario <input type="color" id="cPrimary" value="#0F766E" /></label>
+          <label>Secundario <input type="color" id="cSecondary" value="#6366F1" /></label>
+          <button class="btn" id="btnApplyTheme">Aplicar</button>
+          <button class="btn" id="btnThemeReset">Reset</button>
+        </div>
+      </div>
+      <div class="card mt-16">
+        <h3 class="card-title">Datos demo</h3>
+        <div class="row gap-12">
+          <button class="btn btn-outline" id="btnSeed">Re-sembrar base</button>
+          <button class="btn btn-primary" id="btnBoostData2">Generar 50 pacientes + 30 citas</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- Overlays -->
+<div class="scrim" id="scrim"></div>
+<div id="tour" class="tour hidden">
+  <div class="tour-card">
+    <h3>Guía rápida</h3>
+    <ol>
+      <li>Dashboard → indicadores + gráficos.</li>
+      <li>Agenda → crea citas y gestiona disponibilidad.</li>
+      <li>Sala de espera → triage y prioridad.</li>
+      <li>Consulta (SOAP) → S/O/A/P, Dx, órdenes, receta.</li>
+      <li>Órdenes → resultados y “entregado”.</li>
+      <li>Facturación → resumen de cobro.</li>
+    </ol>
+    <div class="actions"><button class="btn btn-primary" id="btnTourOk">Entendido</button></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
